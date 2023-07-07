@@ -8,10 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.Assert.assertEquals;
 
 public class MainPage {
 
@@ -30,12 +27,62 @@ public class MainPage {
             ,"Да, пока самокат не привезли. Штрафа не будет, объяснительной записки тоже не попросим. Все же свои."
             ,"Да, обязательно. Всем самокатов! И Москве, и Московской области."};
 
+    public static String[] getFaqAnswersText() {
+        return FAQ_ANSWERS_TEXT;
+    }
+
     private By acceptCookieButton = By.xpath(".//button[contains(@class, 'App_CookieButton')]");
-    private By faqHeadings = By.xpath(".//div[contains(@id, 'accordion__heading')]");
-    private By faqAnswers = By.cssSelector("[data-accordion-component=AccordionItemPanel]");
-    private By headerOrderButton = By.xpath(".//div[contains(@class, 'Header')]/button[text() = 'Заказать']");
+    private By faqHeadings = By.xpath("(.//div[contains(@id, 'accordion__heading')])");
+    private By faqAnswer1 = By.xpath(".//div[@aria-labelledby = 'accordion__heading-0']");
+    private By faqAnswer2 = By.xpath(".//div[@aria-labelledby = 'accordion__heading-1']");
+    private By faqAnswer3 = By.xpath(".//div[@aria-labelledby = 'accordion__heading-2']");
+    private By faqAnswer4 = By.xpath(".//div[@aria-labelledby = 'accordion__heading-3']");
+    private By faqAnswer5 = By.xpath(".//div[@aria-labelledby = 'accordion__heading-4']");
+    private By faqAnswer6 = By.xpath(".//div[@aria-labelledby = 'accordion__heading-5']");
+    private By faqAnswer7 = By.xpath(".//div[@aria-labelledby = 'accordion__heading-6']");
+    private By faqAnswer8 = By.xpath(".//div[@aria-labelledby = 'accordion__heading-7']");
     private By logoSamokat = By.xpath(".//img[@alt = 'Scooter']");
     private By logoYandex = By.xpath(".//img[@alt = 'Yandex']");
+
+    public WebElement getFaqAnswer1() {
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(faqAnswer1)));
+        return driver.findElement(faqAnswer1);
+    }
+
+    public WebElement getFaqAnswer2() {
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(faqAnswer2)));
+        return driver.findElement(faqAnswer2);
+    }
+
+    public WebElement getFaqAnswer3() {
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(faqAnswer3)));
+        return driver.findElement(faqAnswer3);
+    }
+
+    public WebElement getFaqAnswer4() {
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(faqAnswer4)));
+        return driver.findElement(faqAnswer4);
+    }
+
+    public WebElement getFaqAnswer5() {
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(faqAnswer5)));
+        return driver.findElement(faqAnswer5);
+    }
+
+    public WebElement getFaqAnswer6() {
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(faqAnswer6)));
+        return driver.findElement(faqAnswer6);
+    }
+
+    public WebElement getFaqAnswer7() {
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(faqAnswer7)));
+        return driver.findElement(faqAnswer7);
+    }
+
+    public WebElement getFaqAnswer8() {
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(faqAnswer8)));
+        return driver.findElement(faqAnswer8);
+    }
 
     public MainPage(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
@@ -52,8 +99,10 @@ public class MainPage {
         return this;
     }
 
-    public OrderPage clickHeaderOrderButton() {
-        driver.findElement(headerOrderButton).click();
+    public OrderPage clickOrderButton(By locator) {
+        JavascriptExecutor js = ((JavascriptExecutor) driver);
+        js.executeScript("arguments[0].scrollIntoView(true);", driver.findElement(locator));
+        driver.findElement(locator).click();
         return new OrderPage(driver);
     }
 
@@ -64,17 +113,6 @@ public class MainPage {
 
     public MainPage clickOnYandexLogo() {
         driver.findElement(logoYandex).click();
-        return this;
-    }
-
-    public MainPage checkFaqAnswersIsVisible() {
-        List<WebElement> faqMenuList = driver.findElements(faqHeadings);
-        List<String> faqMenuText = Arrays.asList(FAQ_ANSWERS_TEXT);
-        for (int i = 0; i < faqMenuList.size() ; i++) {
-            faqMenuList.get(i).click();
-            wait.until(ExpectedConditions.visibilityOf(driver.findElements(faqAnswers).get(i)));
-            assertEquals(driver.findElements(faqAnswers).get(i).getText(), faqMenuText.get(i));
-        }
         return this;
     }
 
@@ -98,5 +136,11 @@ public class MainPage {
         switchToWindow(1);
         wait.until(ExpectedConditions.presenceOfElementLocated(By.tagName("html")));
         Assert.assertEquals("https://dzen.ru/?yredirect=true", driver.getCurrentUrl());
+    }
+
+    public MainPage clickToQuestion(int number) {
+        List<WebElement> faqMenuList = driver.findElements(faqHeadings);
+        faqMenuList.get(number).click();
+        return this;
     }
 }
