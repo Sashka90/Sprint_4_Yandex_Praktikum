@@ -33,56 +33,9 @@ public class MainPage {
 
     private By acceptCookieButton = By.xpath(".//button[contains(@class, 'App_CookieButton')]");
     private By faqHeadings = By.xpath("(.//div[contains(@id, 'accordion__heading')])");
-    private By faqAnswer1 = By.xpath(".//div[@aria-labelledby = 'accordion__heading-0']");
-    private By faqAnswer2 = By.xpath(".//div[@aria-labelledby = 'accordion__heading-1']");
-    private By faqAnswer3 = By.xpath(".//div[@aria-labelledby = 'accordion__heading-2']");
-    private By faqAnswer4 = By.xpath(".//div[@aria-labelledby = 'accordion__heading-3']");
-    private By faqAnswer5 = By.xpath(".//div[@aria-labelledby = 'accordion__heading-4']");
-    private By faqAnswer6 = By.xpath(".//div[@aria-labelledby = 'accordion__heading-5']");
-    private By faqAnswer7 = By.xpath(".//div[@aria-labelledby = 'accordion__heading-6']");
-    private By faqAnswer8 = By.xpath(".//div[@aria-labelledby = 'accordion__heading-7']");
+    private By faqAnswers = By.xpath("(.//div[contains(@id, 'accordion__panel')])");
     private By logoSamokat = By.xpath(".//img[@alt = 'Scooter']");
     private By logoYandex = By.xpath(".//img[@alt = 'Yandex']");
-
-    public WebElement getFaqAnswer1() {
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement(faqAnswer1)));
-        return driver.findElement(faqAnswer1);
-    }
-
-    public WebElement getFaqAnswer2() {
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement(faqAnswer2)));
-        return driver.findElement(faqAnswer2);
-    }
-
-    public WebElement getFaqAnswer3() {
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement(faqAnswer3)));
-        return driver.findElement(faqAnswer3);
-    }
-
-    public WebElement getFaqAnswer4() {
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement(faqAnswer4)));
-        return driver.findElement(faqAnswer4);
-    }
-
-    public WebElement getFaqAnswer5() {
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement(faqAnswer5)));
-        return driver.findElement(faqAnswer5);
-    }
-
-    public WebElement getFaqAnswer6() {
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement(faqAnswer6)));
-        return driver.findElement(faqAnswer6);
-    }
-
-    public WebElement getFaqAnswer7() {
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement(faqAnswer7)));
-        return driver.findElement(faqAnswer7);
-    }
-
-    public WebElement getFaqAnswer8() {
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement(faqAnswer8)));
-        return driver.findElement(faqAnswer8);
-    }
 
     public MainPage(WebDriver driver, WebDriverWait wait) {
         this.driver = driver;
@@ -142,5 +95,10 @@ public class MainPage {
         List<WebElement> faqMenuList = driver.findElements(faqHeadings);
         faqMenuList.get(number).click();
         return this;
+    }
+
+    public Object getTextAnswer(int number) {
+        wait.until(ExpectedConditions.visibilityOf(driver.findElements(faqAnswers).get(number)));
+        return driver.findElements(faqAnswers).get(number).getText();
     }
 }
